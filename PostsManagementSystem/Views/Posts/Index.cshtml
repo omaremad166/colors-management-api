@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PostsManagementSystem.Models.Post>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <a href="@Url.Action("Create", "Posts")">
+                            <i class="fa fa-plus fa-2x float-right" style="margin-top: 14px; color: white"></i>
+                        </a>
+                        <h4 class="card-title">Posts</h4>
+                        <p class="card-category">Posts Management</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Name In Arabic</th>
+                                        <th>Main Image</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Post in Model)
+                                    {
+                                    <tr>
+                                        <td>@Post.Name</td>
+                                        <td>@Post.NameAR</td>
+                                        <td><img src="~/images/posts/@Post.ImageName" height="75" width="75" class="rounded-circle"/></td>
+                                        <td><a asp-controller="Posts" asp-action="Edit" asp-route-id="@Post.Id" class="btn btn-light btn-sm">Edit</a></td>
+                                        <td><a asp-controller="Posts" asp-action="Delete" asp-route-id="@Post.Id" class="btn btn-danger btn-sm">Delete</a></td>
+                                    </tr>
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

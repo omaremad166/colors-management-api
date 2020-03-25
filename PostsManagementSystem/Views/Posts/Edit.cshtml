@@ -1,0 +1,57 @@
+﻿@model PostsManagementSystem.Models.Post
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Edit Post</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Name (EN)</label>
+                                        <input asp-for="Name" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Name (AR)</label>
+                                        <input asp-for="NameAR" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <label>Main Image</label>
+                                        <br />
+                                        <img src="~/images/posts/@Model.ImageName" height="200" width="200"/>
+                                        <input asp-for="ImageName" type="file" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-group bmd-form-group">
+                                            <label class="bmd-label-floating">Content</label>
+                                            <textarea asp-for="Content" class="form-control" rows="10" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" value="Create" class="btn btn-primary pull-right" />
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
