@@ -23,4 +23,10 @@
     <Folder Include="wwwroot\images\posts\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Home\ContactUs.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

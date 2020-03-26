@@ -40,6 +40,11 @@ namespace PostsManagementSystem
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -62,6 +67,8 @@ namespace PostsManagementSystem
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseMvc(routes =>
             {

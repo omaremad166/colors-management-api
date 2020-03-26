@@ -9,7 +9,7 @@ using PostsManagementSystem.Models;
 
 namespace PostsManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PolylinesController : Controller
     {
         private readonly ApplicationDbContext _context;

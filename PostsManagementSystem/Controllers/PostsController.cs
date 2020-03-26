@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using PostsManagementSystem.Data;
 using PostsManagementSystem.Models;
+using PostsManagementSystem.Models.DTOs;
 
 namespace PostsManagementSystem.Controllers
 {
@@ -22,6 +24,7 @@ namespace PostsManagementSystem.Controllers
             _context = context;
         }
 
+        [Route("Home/Posts")]
         public ActionResult Index()
         {
             return View(_context.Posts.ToList());
@@ -103,6 +106,15 @@ namespace PostsManagementSystem.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/[action]")]
+        [AllowAnonymous]
+        public IEnumerable<Post> Get()
+        {
+            return _context.Posts
+                .ToList();
         }
     }
 }

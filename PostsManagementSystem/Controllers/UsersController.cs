@@ -8,7 +8,6 @@ using PostsManagementSystem.Data;
 using PostsManagementSystem.Models;
 using PostsManagementSystem.Models.DTOs;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PostsManagementSystem.Controllers
 {
@@ -24,42 +23,19 @@ namespace PostsManagementSystem.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<User> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Users
+                .Include(u => u.Color)
+                .ToList();
         }
-
-        //// GET api/<controller>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<controller>
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT api/<controller>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/<controller>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
 
         [HttpPost]
         public async Task<IActionResult> UpdateState([FromBody] UserDto userDto)
         {
-            Polyline polyline = _context.Polylines
+            Polyline polyline = await _context.Polylines
                 .Where(p => p.Latitude == userDto.Latitude && p.Longitude == userDto.Longitude)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (polyline == null) //Empty Point
             {
@@ -147,6 +123,27 @@ namespace PostsManagementSystem.Controllers
                 return Ok();
             }
             return StatusCode(500);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] User user)
+        {
+            User newUser = new User();
+
+            newUser.FirstName = user.FirstName;
+            newUser.LastName = user.LastName;
+            newUser.Gender = user.Gender;
+            //newUser.ImageName = user.ImageName;
+            newUser.Address = user.Address;
+            newUser.WorkAddress = user.WorkAddress;
+            newUser.Email = user.Email;
+            newUser.Password = user.Password;
+            newUser.ColorId = user.ColorId;
+
+            _context.Add(newUser);
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

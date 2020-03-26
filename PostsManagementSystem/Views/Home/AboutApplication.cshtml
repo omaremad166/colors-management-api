@@ -1,0 +1,80 @@
+﻿@model PostsManagementSystem.Models.ViewModels.AboutVM
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">About Application</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="AboutApplication" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-group bmd-form-group">
+                                            <label class="bmd-label-floating">Content</label>
+                                            <textarea asp-for="AppInfo.Content" class="form-control" rows="10" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-group bmd-form-group">
+                                            <label class="bmd-label-floating">Content In Arabic</label>
+                                            <textarea asp-for="AppInfo.ContentAR" class="form-control" rows="10" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header card-header-primary">
+                                            <a href="@Url.Action("CreateAccount", "Home", new { id = Model.AppInfo.Id})">
+                                                <i class="fa fa-plus fa-2x float-right" style="margin-top: 2px; color: white"></i>
+                                            </a>
+                                            <h5 class="card-title">Social Media Accounts</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table" id="table">
+                                                    <thead class="text-primary">
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Link</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var Account in Model.SocialMediaAccounts)
+                                                        {
+                                                            <tr>
+                                                                <td>@Account.Name</td>
+                                                                <td>@Account.Link</td>
+                                                                <td><a asp-controller="Home" asp-action="EditAccount" asp-route-id="@Account.Id" class="btn btn-light btn-sm">Edit</a></td>
+                                                                <td><a asp-controller="Home" asp-action="DeleteAccount" asp-route-id="@Account.Id" class="btn btn-danger btn-sm">Delete</a></td>
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-primary pull-right" />
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
