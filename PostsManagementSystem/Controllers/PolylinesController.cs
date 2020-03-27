@@ -22,6 +22,7 @@ namespace PostsManagementSystem.Controllers
 
         // GET: api/<controller>
         [HttpGet]
+        [Route("/api/[controller]")]
         public IEnumerable<PolylineDto> Get()
         {
             return _context.Polylines
@@ -34,29 +35,20 @@ namespace PostsManagementSystem.Controllers
                 .ToList();
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("/api/[controller]/{id}")]
+        public PolylineDto Get(int id)
         {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return _context.Polylines
+                .Include(p => p.Color)
+                .Select(p => new PolylineDto
+                {
+                    Id = p.Id,
+                    Latitude = p.Latitude,
+                    Longitude = p.Longitude,
+                    Color = p.Color
+                })
+                .FirstOrDefault(p => p.Id == id);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace PostsManagementSystem.Controllers
 
         // GET: api/<controller>
         [HttpGet]
+        [Route("/api/[controller]")]
         public IEnumerable<AppInfo> Get()
         {
             return _context.AppInfo.ToList();

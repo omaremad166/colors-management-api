@@ -26,11 +26,21 @@ namespace PostsManagementSystem.Controllers
 
         // GET: api/<controller>
         [HttpGet]
+        [Route("/api/[controller]")]
         public IEnumerable<User> Get()
         {
             return _context.Users
                 .Include(u => u.Color)
                 .ToList();
+        }
+
+        [HttpGet]
+        [Route("/api/[controller]/{id}")]
+        public User Get(int id)
+        {
+            return _context.Users
+                .Include(u => u.Color)
+                .FirstOrDefault(u => u.Id == id);
         }
 
         [HttpPost]
@@ -143,7 +153,36 @@ namespace PostsManagementSystem.Controllers
 
             return Ok();
         }
+        
+        [HttpPost]
+        public IActionResult Login([FromBody] User user)
+        {
+            UserService userService = new UserService();
 
+            string hashedPassword = userService.GetHashString(user.Password);
+
+            User authUser = _context.Users
+                .Where(u => u.Email == user.Email && u.Password == hashedPassword)
+                .FirstOrDefault(); 
+
+            if(authUser != null)
+            {
+                string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+                return Ok(new
+                {
+                    Id = authUser.Id,
+                    FirstName = authUser.FirstName,
+                    LastName = authUser.LastName,
+                    Email = authUser.Email,
+                    Token = token
+                });
+            }
+            else
+                return BadRequest(new { message = "Incorrect E-mail or password!" });
+        }
+
+        //Users CRUD
         [Route("/[controller]")]
         public IActionResult Index()
         {

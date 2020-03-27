@@ -108,12 +108,20 @@ namespace PostsManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/[action]")]
+        [Route("api/[controller]")]
         [AllowAnonymous]
         public IEnumerable<Post> Get()
         {
             return _context.Posts
                 .ToList();
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/{id}")]
+        [AllowAnonymous]
+        public Post Get(int id)
+        {
+            return _context.Posts.Find(id);
         }
     }
 }
