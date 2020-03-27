@@ -1,0 +1,97 @@
+﻿@model PostsManagementSystem.Models.User
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Create User</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CreateUser" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">First Name</label>
+                                        <input asp-for="FirstName" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Last Name</label>
+                                        <input asp-for="LastName" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">E-mail</label>
+                                        <input asp-for="Email" type="email" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Password</label>
+                                        <input asp-for="Password" type="password" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <label>Gender</label>
+                                        <select name="Gender" class="form-control">
+                                            <option value=True>Male</option>
+                                            <option value=False>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <label>Profile Picture</label>
+                                        <input asp-for="ImageName" type="file" class="form-control" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Address</label>
+                                        <input asp-for="Address" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Work Address</label>
+                                        <input asp-for="WorkAddress" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        @*<input asp-for="WorkAddress" type="text" class="form-control" required>*@
+
+                                        <label>Color</label>
+                                        <select asp-for="ColorId" class="form-control" asp-items="ViewBag.Colors"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" value="Create" class="btn btn-primary pull-right" />
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

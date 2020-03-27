@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PostsManagementSystem.Data;
 using PostsManagementSystem.Models;
@@ -139,6 +142,112 @@ namespace PostsManagementSystem.Controllers
             _context.SaveChanges();
 
             return Ok();
+        }
+
+        [Route("/[controller]")]
+        public IActionResult Index()
+        {
+            var users = _context.Users.Include(u => u.Color).ToList();
+
+            return View(users);
+        }
+
+        [Route("/[controller]/[Action]")]
+        public IActionResult CreateUser()
+        {
+            ViewBag.Colors = _context.Colors
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.ColorName,
+                    Value = c.Id.ToString()
+                });
+
+            return View();
+        }
+
+        [Route("/[controller]/[Action]")]
+        [HttpPost]
+        public IActionResult CreateUser(User user, IFormCollection collection)
+        {
+            user.ImageName = Path.GetRandomFileName() + Path.GetExtension(collection.Files[0].FileName);
+
+            using (var localFile = System.IO.File.OpenWrite("wwwroot/images/users/" + user.ImageName))
+            using (var uploadedFile = collection.Files[0].OpenReadStream())
+            {
+                uploadedFile.CopyTo(localFile);
+            }
+
+            UserService userService = new UserService();
+
+            user.Password = userService.GetHashString(user.Password);
+
+            _context.Add(user);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [Route("/[controller]/[Action]")]
+        public IActionResult EditUser(int id)
+        {
+            User user = _context.Users.Find(id);
+
+            ViewBag.Colors = _context.Colors
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.ColorName,
+                    Value = c.Id.ToString()
+                });
+
+            return View(user);
+        }
+
+        [Route("/[controller]/[Action]")]
+        [HttpPost]
+        public IActionResult EditUser(int id, IFormCollection collection)
+        {
+            var user = _context.Users.Find(id);
+
+            user.FirstName = collection["FirstName"];
+            user.LastName = collection["LastName"];
+            user.Email = collection["Email"];
+            user.Gender = bool.Parse(collection["Gender"]);
+            user.Address = collection["Address"];
+            user.WorkAddress = collection["WorkAddress"];
+            user.ColorId = Int32.Parse(collection["ColorId"]);
+
+            if (collection.Files.Count() > 0)
+            {
+                user.ImageName = Path.GetRandomFileName() + Path.GetExtension(collection.Files[0].FileName);
+
+                using (var localFile = System.IO.File.OpenWrite("wwwroot/images/users/" + user.ImageName))
+                using (var uploadedFile = collection.Files[0].OpenReadStream())
+                {
+                    uploadedFile.CopyTo(localFile);
+                }
+            }
+
+
+            if (user.Password != null)
+            {
+                UserService userService = new UserService();
+
+                user.Password = userService.GetHashString(user.Password);
+            }
+
+            _context.Update(user);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [Route("/[controller]/[Action]")]
+        public IActionResult DeleteUser(int id)
+        {
+            _context.Users.Remove(_context.Users.Find(id));
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Users");
         }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PostsManagementSystem.Models.User>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <a href="@Url.Action("CreateUser", "Users")">
+                            <i class="fa fa-plus fa-2x float-right" style="margin-top: 14px; color: white"></i>
+                        </a>
+                        <h4 class="card-title">Users</h4>
+                        <p class="card-category">Users Management</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>E-mail</th>
+                                        <th>Gender</th>
+                                        <th>Profile Picture</th>
+                                        <th>Address</th>
+                                        <th>Work Address</th>
+                                        <th>Color</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var User in Model)
+                                    {
+                                    <tr>
+                                        <td>@User.FirstName @User.LastName</td>
+                                        <td>@User.Email</td>
+                                        @if (User.Gender)
+                                        {
+                                            <td>Male</td>
+                                        }
+                                        @if (!User.Gender)
+                                        {
+                                            <td>Female</td>
+                                        }
+                                        <td><img src="~/images/users/@User.ImageName" height="50" width="50" class="rounded-circle" /></td>
+                                        <td>@User.Address</td>
+                                        <td>@User.WorkAddress</td>
+                                        <td style="color: @User.Color.ColorName"><h6>@User.Color.ColorName</h6></td>
+
+                                        <td><a asp-controller="Users" asp-action="EditUser" asp-route-id="@User.Id" class="btn btn-light btn-sm">Edit</a></td>
+                                        <td><a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@User.Id" class="btn btn-danger btn-sm">Delete</a></td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

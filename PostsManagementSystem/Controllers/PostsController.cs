@@ -24,7 +24,6 @@ namespace PostsManagementSystem.Controllers
             _context = context;
         }
 
-        [Route("Home/Posts")]
         public ActionResult Index()
         {
             return View(_context.Posts.ToList());

@@ -13,6 +13,7 @@ using PostsManagementSystem.Models.ViewModels;
 namespace PostsManagementSystem.Controllers
 {
     [Authorize]
+    [Route("/[Action]")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,6 +23,8 @@ namespace PostsManagementSystem.Controllers
             _context = context;
         }
 
+        [Route("/")]
+        [Route("/[Action]")]
         public IActionResult Index()
         {
             return View();
