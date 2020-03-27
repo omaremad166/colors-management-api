@@ -1,4 +1,4 @@
-﻿@model PostsManagementSystem.Models.AppInfo
+﻿@model IEnumerable<PostsManagementSystem.Models.ContactUs>
 
 <div class="content">
     <div class="container-fluid">
@@ -6,34 +6,33 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Contact Us</h4>
+                        <h4 class="card-title">Contact Us Messages</h4>
                     </div>
                     <div class="card-body">
-                        <form asp-action="ContactUs" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="form-group bmd-form-group">
-                                            <label class="bmd-label-floating">Content</label>
-                                            <textarea asp-for="Content" class="form-control" rows="10" required></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="form-group bmd-form-group">
-                                            <label class="bmd-label-floating">Content In Arabic</label>
-                                            <textarea asp-for="ContentAR" class="form-control" rows="10" required></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="submit" value="Update" class="btn btn-primary pull-right" />
-                            <div class="clearfix"></div>
-                        </form>
+                        <div class="table-responsive">
+                            <table class="table" id="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>E-mail</th>
+                                        <th>Phone</th>
+                                        <th>Content</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Message in Model)
+                                    {
+                                        <tr>
+                                            <td>@Message.Name</td>
+                                            <td>@Message.Email</td>
+                                            <td>@Message.Phone</td>
+                                            <td>@Message.Content</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

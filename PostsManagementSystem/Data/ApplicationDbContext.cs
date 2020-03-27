@@ -19,5 +19,6 @@ namespace PostsManagementSystem.Data
         public DbSet<Polyline> Polylines { get; set; }
         public DbSet<AppInfo> AppInfo { get; set; }
         public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
     }
 }
