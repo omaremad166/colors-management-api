@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PostsManagementSystem.Data;
 using PostsManagementSystem.Models;
 using PostsManagementSystem.Models.DTOs;
-
+using PostsManagementSystem.Services;
 
 namespace PostsManagementSystem.Controllers
 {
@@ -128,19 +128,14 @@ namespace PostsManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] User user)
         {
-            User newUser = new User();
+            if (_context.Users.Where(u => u.Email == user.Email).SingleOrDefault() != null)
+                return BadRequest(new { message = "User registered with the same E-mail before!" });
 
-            newUser.FirstName = user.FirstName;
-            newUser.LastName = user.LastName;
-            newUser.Gender = user.Gender;
-            //newUser.ImageName = user.ImageName;
-            newUser.Address = user.Address;
-            newUser.WorkAddress = user.WorkAddress;
-            newUser.Email = user.Email;
-            newUser.Password = user.Password;
-            newUser.ColorId = user.ColorId;
+            UserService userService = new UserService();
 
-            _context.Add(newUser);
+            user.Password = userService.GetHashString(user.Password);
+
+            _context.Add(user);
             _context.SaveChanges();
 
             return Ok();
