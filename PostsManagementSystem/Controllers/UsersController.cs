@@ -139,7 +139,7 @@ namespace PostsManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromForm] User user, IFormFile file)
         {
             if (_context.Users.Where(u => u.Email == user.Email).SingleOrDefault() != null)
                 return BadRequest(new { message = "User registered with the same E-mail before!" });
@@ -147,6 +147,14 @@ namespace PostsManagementSystem.Controllers
             UserService userService = new UserService();
 
             user.Password = userService.GetHashString(user.Password);
+
+            user.ImageName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
+
+            using (var localFile = System.IO.File.OpenWrite("wwwroot/images/users/" + user.ImageName))
+            using (var uploadedFile = file.OpenReadStream())
+            {
+                uploadedFile.CopyTo(localFile);
+            }
 
             _context.Add(user);
             _context.SaveChanges();

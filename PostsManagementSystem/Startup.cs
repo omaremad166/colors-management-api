@@ -42,7 +42,7 @@ namespace PostsManagementSystem
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader());
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -68,7 +68,11 @@ namespace PostsManagementSystem
 
             app.UseAuthentication();
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors(options => options
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
 
             app.UseMvc(routes =>
             {
