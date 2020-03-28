@@ -55,30 +55,30 @@ namespace PostsManagementSystem.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult ContactUs()
-        {
-            AppInfo contactUs = _context.AppInfo
-                .Where(a => a.Name == "Contact Us")
-                .FirstOrDefault();
+        //public ActionResult ContactUs()
+        //{
+        //    AppInfo contactUs = _context.AppInfo
+        //        .Where(a => a.Name == "Contact Us")
+        //        .FirstOrDefault();
 
-            return View(contactUs);
-        }
+        //    return View(contactUs);
+        //}
 
-        [HttpPost]
-        public ActionResult ContactUs(IFormCollection collection)
-        {
-            AppInfo contactUs = _context.AppInfo
-                .Where(a => a.Name == "Contact Us")
-                .FirstOrDefault();
+        //[HttpPost]
+        //public ActionResult ContactUs(IFormCollection collection)
+        //{
+        //    AppInfo contactUs = _context.AppInfo
+        //        .Where(a => a.Name == "Contact Us")
+        //        .FirstOrDefault();
 
-            contactUs.Content = collection["Content"];
-            contactUs.ContentAR = collection["ContentAR"];
+        //    contactUs.Content = collection["Content"];
+        //    contactUs.ContentAR = collection["ContentAR"];
 
-            _context.Update(contactUs);
-            _context.SaveChanges();
+        //    _context.Update(contactUs);
+        //    _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         public ActionResult AboutApplication()
         {

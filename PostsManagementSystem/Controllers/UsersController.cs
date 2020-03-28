@@ -46,8 +46,20 @@ namespace PostsManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateState([FromBody] UserDto userDto)
         {
+            double meterPerDegree = 0.00000900900900900901;
+
+            double upperLatitude = userDto.Latitude + (meterPerDegree * 10);
+            double lowerLatitude = userDto.Longitude - (meterPerDegree * 10);
+
+            double upperLongitude = userDto.Longitude + (meterPerDegree * 10);
+            double lowerLongitude = userDto.Longitude - (meterPerDegree * 10);
+
             Polyline polyline = await _context.Polylines
-                .Where(p => p.Latitude == userDto.Latitude && p.Longitude == userDto.Longitude)
+                .Where(p => 
+                p.Latitude >= lowerLatitude
+                && p.Latitude <= upperLatitude
+                && p.Longitude >= lowerLongitude
+                && p.Longitude <= upperLongitude)
                 .FirstOrDefaultAsync();
 
             if (polyline == null) //Empty Point
@@ -65,9 +77,8 @@ namespace PostsManagementSystem.Controllers
 
                     _context.Add(newPolyline);
                     _context.SaveChanges();
-
-                    return Ok();
                 }
+                return Ok();
             }
             else if (userDto.ColorId == 1) //Red User
             {
@@ -81,16 +92,7 @@ namespace PostsManagementSystem.Controllers
             else if (userDto.ColorId == 2) //Orange User
             {
                 if (polyline.ColorId == 1)//Red Point
-                {
-                    User user = _context.Users.Find(userDto.UserId);
-
-                    user.ColorId = polyline.ColorId;
-
-                    _context.Update(user);
-                    _context.SaveChanges();
-
                     return Ok();
-                }
                 else
                 {
                     polyline.ColorId = userDto.ColorId;
@@ -107,7 +109,8 @@ namespace PostsManagementSystem.Controllers
                 {
                     User user = _context.Users.Find(userDto.UserId);
 
-                    user.ColorId = polyline.ColorId;
+                    user.ColorId = 2;//Orange
+                    user.LastModification = DateTime.Now;
 
                     _context.Update(user);
                     _context.SaveChanges();
@@ -128,7 +131,12 @@ namespace PostsManagementSystem.Controllers
             {
                 User user = _context.Users.Find(userDto.UserId);
 
-                user.ColorId = polyline.ColorId;
+                if (polyline.ColorId == 1 || polyline.ColorId == 2)
+                    user.ColorId = 2;//Orange
+                else
+                    user.ColorId = polyline.ColorId;//Yellow
+
+                user.LastModification = DateTime.Now;
 
                 _context.Update(user);
                 _context.SaveChanges();

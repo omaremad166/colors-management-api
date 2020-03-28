@@ -23,6 +23,8 @@ namespace PostsManagementSystem.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
+        public DateTime? LastModification { get; set; }
+
         public int ColorId { get; set; }
         public Color Color { get; set; }
     }

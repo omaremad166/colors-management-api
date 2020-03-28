@@ -24,6 +24,7 @@
                                         <th>Address</th>
                                         <th>Work Address</th>
                                         <th>Color</th>
+                                        <th>Last Modification</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -46,6 +47,14 @@
                                         <td>@User.Address</td>
                                         <td>@User.WorkAddress</td>
                                         <td style="color: @User.Color.ColorName"><h6>@User.Color.ColorName</h6></td>
+                                        @if(User.LastModification != null)
+                                        {
+                                            <td>@User.LastModification</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Not Modified</td>
+                                        }
 
                                         <td><a asp-controller="Users" asp-action="EditUser" asp-route-id="@User.Id" class="btn btn-light btn-sm">Edit</a></td>
                                         <td><a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@User.Id" class="btn btn-danger btn-sm">Delete</a></td>

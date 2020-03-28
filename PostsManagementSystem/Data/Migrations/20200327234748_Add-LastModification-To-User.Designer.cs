@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostsManagementSystem.Data;
 
 namespace PostsManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327234748_Add-LastModification-To-User")]
+    partial class AddLastModificationToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,7 +312,7 @@ namespace PostsManagementSystem.Data.Migrations
 
                     b.Property<string>("ImageName");
 
-                    b.Property<DateTime?>("LastModification");
+                    b.Property<DateTime>("LastModification");
 
                     b.Property<string>("LastName");
 
